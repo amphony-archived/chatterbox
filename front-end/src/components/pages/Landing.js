@@ -1,6 +1,5 @@
 import React from 'react';
-import LoginForm from '../layout/LoginForm';
-
+import FormGroup from '../layout/forms/FormGroup';
 import landingImage from '../../assets/landing.jpg';
 
 const Landing = () => {
@@ -10,7 +9,7 @@ const Landing = () => {
         <h4>Welcome to Chatterbox!</h4>
         <p>The place where you chat with your friends.</p>
       </div>
-      <LoginForm />
+      <FormGroup />
     </div>
   )
 }

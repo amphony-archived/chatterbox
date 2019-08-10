@@ -2,11 +2,15 @@
 
 /* UTILS */
 .color-primary {
-  color: $primary-color;
+  color: $primary-color !important;
 }
 
 .bg-primary {
   background-color: $primary-color;
+}
+
+.pa-2 {
+  padding: 1em !important;
 }
 
 .py {

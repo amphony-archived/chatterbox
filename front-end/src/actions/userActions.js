@@ -8,8 +8,19 @@ import {
 } from './types';
 
 // Register User
-export const registerUser = username => async dispatch => {
+export const registerUser = (username, password) => async dispatch => {
   setLoading();
+
+  const res = await fetch('http://localhost:5000/users', {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({ username, password })
+  });
+
   dispatch({
     type: REGISTER_USER,
     payload: username
