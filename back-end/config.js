@@ -4,6 +4,7 @@ var config = {
   development: {
     // mongodb details
     url: 'http://localhost:3000',
+    secret: 'banana',
     database: {
       user: process.env.MONGODB_ATLAS_USER,
       password: process.env.MONGODB_ATLAS_USER_PASSWORD,
