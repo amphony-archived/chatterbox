@@ -7,6 +7,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Username is required']
   },
+  firstName: {
+    type: String
+  },
+  lasName: {
+    type: String
+  },
   password: {
     type: String,
     required: [true, 'Password is required']
@@ -16,5 +22,8 @@ const userSchema = new Schema({
     default: Date.now()
   }
 });
+
+// Index for query performance on username and sort performance on created
+userSchema.index({ username: 1, created: 1 });
 
 module.exports = mongoose.model('User', userSchema);

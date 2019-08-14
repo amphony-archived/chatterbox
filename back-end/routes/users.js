@@ -8,7 +8,24 @@ const { check, validationResult } = require('express-validator');
 
 const registerUserRoutes = app => {
   // @route  GET  /users
-  // @desc   Get user contact list
+  // @desc   Get users that match search
+  // @access Private
+  app.get('/users', auth, (req, res) => {
+    const query = req.query.username;
+    const flags = 'i';
+    const regex = new RegExp(query, flags);
+    User.find(
+      { username: regex },
+      '_id username firstName lastName',
+      (err, users) => {
+        if (err) return res.status(400).json({ error: err });
+        res.json({ users });
+      }
+    )
+  });
+
+  // @route  Get /contacts
+  // @desc   Gets user contacts
   // @access Private
   app.get('/contacts', auth, async (req, res) => {
     let user;
@@ -26,6 +43,9 @@ const registerUserRoutes = app => {
     });
   });
 
+  // @route  POST /contacts
+  // @desc   Add contact to current user
+  // @access Private
   app.post('/contacts', auth, async (req, res) => {
     User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, contact) => {
       if (err) return res.status(400).json({ error: err });
@@ -74,7 +94,7 @@ const registerUserRoutes = app => {
       }
 
       jwt.sign(payload, secret, {
-        expiresIn: 3600
+        expiresIn: 360000
       }, (err, token) => {
         if (err) throw err;
         res.json({ token });

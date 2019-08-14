@@ -52,7 +52,7 @@ const registerAuthRoutes = app => {
         }
 
         jwt.sign(payload, secret, {
-          expiresIn: 3600
+          expiresIn: 360000
         }, (err, token) => {
           if (err) throw err;
           console.log('Successful login');
