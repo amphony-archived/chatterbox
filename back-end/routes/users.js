@@ -3,9 +3,37 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const config = require('../config')['development'];
 const secret = config.secret;
+const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const registerUserRoutes = app => {
+  // @route  GET  /users
+  // @desc   Get user contact list
+  // @access Private
+  app.get('/contacts', auth, async (req, res) => {
+    let user;
+    try {
+      user = await User.findById(req.user.id);
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err });
+    }
+
+    User.find({ '_id': { '$in': user.contacts }}, (err, contacts) => {
+      if (err) return res.status(400).json({ error: err });
+      console.log(contacts);
+      res.json({ contacts });
+    });
+  });
+
+  app.post('/contacts', auth, async (req, res) => {
+    User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, contact) => {
+      if (err) return res.status(400).json({ error: err });
+      console.log(contact);
+      res.json({ contact });
+    });
+  });
+
   // @route  POST /users
   // @desc   Register a user
   // @access Public
@@ -33,8 +61,7 @@ const registerUserRoutes = app => {
 
       user = new User({
         username,
-        password,
-        created: new Date()
+        password
       });
 
       const salt = await bcrypt.genSalt(10);

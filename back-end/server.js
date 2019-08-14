@@ -11,7 +11,6 @@ const uri = `mongodb+srv://${config.database.user}:${config.database.password}@$
 mongoose.connect(uri,
   {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useFindAndModify: false
   })
   .then(() => {

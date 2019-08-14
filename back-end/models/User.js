@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
+  contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   username: {
     type: String,
     required: [true, 'Username is required']
@@ -11,7 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   created: {
     type: Date,
-    required: [true, 'Created date is required']
+    default: Date.now()
   }
 });
 
