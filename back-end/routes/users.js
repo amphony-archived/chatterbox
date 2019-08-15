@@ -1,8 +1,8 @@
+require('dotenv').config();
+const secret = process.env.SECRET;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const config = require('../config')['development'];
-const secret = config.secret;
 const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
@@ -22,36 +22,6 @@ const registerUserRoutes = app => {
         res.json({ users });
       }
     )
-  });
-
-  // @route  Get /contacts
-  // @desc   Gets user contacts
-  // @access Private
-  app.get('/contacts', auth, async (req, res) => {
-    let user;
-    try {
-      user = await User.findById(req.user.id);
-    } catch (err) {
-      console.error(err);
-      return res.status(400).json({ error: err });
-    }
-
-    User.find({ '_id': { '$in': user.contacts }}, (err, contacts) => {
-      if (err) return res.status(400).json({ error: err });
-      console.log(contacts);
-      res.json({ contacts });
-    });
-  });
-
-  // @route  POST /contacts
-  // @desc   Add contact to current user
-  // @access Private
-  app.post('/contacts', auth, async (req, res) => {
-    User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, contact) => {
-      if (err) return res.status(400).json({ error: err });
-      console.log(contact);
-      res.json({ contact });
-    });
   });
 
   // @route  POST /users
@@ -101,6 +71,37 @@ const registerUserRoutes = app => {
       res.status(500).send('Server error');
     }
   });
+
+  // @route  Get /contacts
+  // @desc   Gets user contacts
+  // @access Private
+  app.get('/contacts', auth, async (req, res) => {
+    let user;
+    try {
+      user = await User.findById(req.user.id);
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err });
+    }
+
+    User.find({ '_id': { '$in': user.contacts }}, (err, contacts) => {
+      if (err) return res.status(400).json({ error: err });
+      console.log(contacts);
+      res.json({ contacts });
+    });
+  });
+
+  // @route  POST /contacts
+  // @desc   Add contact to current user
+  // @access Private
+  app.post('/contacts', auth, async (req, res) => {
+    User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, contact) => {
+      if (err) return res.status(400).json({ error: err });
+      console.log(contact);
+      res.json({ contact });
+    });
+  });
+
 }
 
 module.exports = registerUserRoutes;

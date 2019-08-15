@@ -23,7 +23,8 @@ export const registerUser = user => async dispatch => {
     body: JSON.stringify(user)
   });
 
-  const data = res.json();
+  const data = await res.json();
+  console.log(data);
   window.localStorage.setItem('jwt-token', data.token);
 
   dispatch({
@@ -45,6 +46,7 @@ export const loginUser = (username, password) => async dispatch => {
     });
 
     const data = await res.json();
+    console.log(data);
     window.localStorage.setItem('jwt-token', data.token);
 
     dispatch({
