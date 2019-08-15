@@ -6,14 +6,20 @@ import { registerUser } from '../../../actions/userActions';
 import PropTypes from 'prop-types';
 
 const RegisterForm = ({ style, setFormIndex, registerUser }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const onRegister = async e => {
     e.preventDefault();
-    registerUser(username, password);
-    setUsername('');
-    setPassword('');
+    const newUser = {
+      firstName,
+      lastName,
+      username,
+      password
+    };
+    registerUser(newUser);
   }
 
   return (
@@ -28,21 +34,39 @@ const RegisterForm = ({ style, setFormIndex, registerUser }) => {
       <form style={{ width: '100%' }}>
         <div className="input-field">
           <input
+            name="first_name"
+            type="text"
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+          />
+          <label htmlFor="first_name">First Name</label>
+        </div>
+        <div className="input-field">
+          <input
+            name="last_name"
+            type="text"
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
+          <label htmlFor="last_name">Last Name</label>
+        </div>
+        <div className="input-field">
+          <input
             name="new_username"
             type="text"
             value={username}
             onChange={e => setUsername(e.target.value)}
           />
-          <label htmlFor="new_username">New Username</label>
+          <label htmlFor="username">Username</label>
         </div>
         <div className="input-field">
           <input
-            name="new_password"
+            name="password"
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <label htmlFor="new_password">New Password</label>
+          <label htmlFor="new_password">Password</label>
         </div>
         <button
           className="btn"

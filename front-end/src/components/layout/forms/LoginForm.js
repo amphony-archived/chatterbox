@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { animated } from 'react-spring';
 import { setFormIndex } from '../../../actions/layoutActions';
+import { loginUser } from '../../../actions/userActions';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ style, setFormIndex }) => {
+const LoginForm = ({ style, setFormIndex, loginUser }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onLogin = e => {
+    e.preventDefault();
+    loginUser(username, password);
+  };
+
   return (
     <animated.div className="valign-wrapper pa-2" style={{...style, width: 'inherit', height: 'inherit' }}>
       <a
@@ -19,6 +28,8 @@ const LoginForm = ({ style, setFormIndex }) => {
           <input
             name="username"
             type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
           />
           <label htmlFor="username">Username</label>
         </div>
@@ -26,10 +37,17 @@ const LoginForm = ({ style, setFormIndex }) => {
           <input
             name="password"
             type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
           <label htmlFor="password">Password</label>
         </div>
-        <button className="btn bg-primary">Log In!</button>
+        <button
+          className="btn bg-primary"
+          onClick={onLogin}
+        >
+          Log In!
+        </button>
       </form>
     </animated.div>
   )
@@ -37,7 +55,8 @@ const LoginForm = ({ style, setFormIndex }) => {
 
 LoginForm.propTypes = {
   style: PropTypes.object.isRequired,
-  setFormIndex: PropTypes.func.isRequired
+  setFormIndex: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired
 }
 
-export default connect(null, { setFormIndex })(LoginForm);
+export default connect(null, { setFormIndex, loginUser })(LoginForm);

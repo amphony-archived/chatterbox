@@ -8,8 +8,10 @@ import {
 } from './types';
 
 // Register User
-export const registerUser = (username, password) => async dispatch => {
+export const registerUser = user => async dispatch => {
   setLoading();
+
+  const { username } = user;
 
   const res = await fetch('http://localhost:5000/users', {
     method: 'post',
@@ -18,14 +20,41 @@ export const registerUser = (username, password) => async dispatch => {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify(user)
   });
+
+  const data = res.json();
+  window.localStorage.setItem('jwt-token', data.token);
 
   dispatch({
     type: REGISTER_USER,
     payload: username
   });
 };
+
+// Login User
+export const loginUser = (username, password) => async dispatch => {
+  try {
+    const res = await fetch('http://localhost:5000/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({ username, password})
+    });
+
+    const data = await res.json();
+    window.localStorage.setItem('jwt-token', data.token);
+
+    dispatch({
+      type: REGISTER_USER,
+      payload: username
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export const setLoading = () => {
   return {
