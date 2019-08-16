@@ -11,15 +11,6 @@ h4 {
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
   background-color: $primary-color;
   min-height: 100vh;
   display: flex;
@@ -28,6 +19,12 @@ h4 {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 .App-link {

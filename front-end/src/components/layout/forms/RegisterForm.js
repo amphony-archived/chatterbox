@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { animated } from 'react-spring';
 import { setFormIndex } from '../../../actions/layoutActions';
 import { registerUser } from '../../../actions/userActions';
 import PropTypes from 'prop-types';
 
+import M from 'materialize-css/dist/js/materialize.min.js';
+
 const RegisterForm = ({ style, setFormIndex, registerUser }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    M.AutoInit();
+    // eslint-disable-next-line
+  }, []);
 
   const onRegister = async e => {
     e.preventDefault();
@@ -19,7 +26,9 @@ const RegisterForm = ({ style, setFormIndex, registerUser }) => {
       username,
       password
     };
-    registerUser(newUser);
+    await registerUser(newUser);
+    M.toast({ html: 'You\'re all registered! Go ahead and login.' });
+    setFormIndex(1);
   }
 
   return (

@@ -1,6 +1,5 @@
 import {
-  REGISTER_USER,
-  LOGIN_USER,
+  SET_CURRENT_USER,
   GET_USER,
   SEARCH_USERS,
   USER_ERROR,
@@ -28,7 +27,7 @@ export const registerUser = user => async dispatch => {
   window.localStorage.setItem('jwt-token', data.token);
 
   dispatch({
-    type: REGISTER_USER,
+    type: SET_CURRENT_USER,
     payload: username
   });
 };
@@ -45,16 +44,17 @@ export const loginUser = (username, password) => async dispatch => {
       body: JSON.stringify({ username, password})
     });
 
-    const data = await res.json();
-    console.log(data);
-    window.localStorage.setItem('jwt-token', data.token);
+    if (res.status === 200) {
+      const data = await res.json();
+      window.localStorage.setItem('jwt-token', data.token);
 
-    dispatch({
-      type: REGISTER_USER,
-      payload: username
-    });
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: username
+      });
+    }
   } catch (err) {
-    console.error(err);
+    console.log(err.array);
   }
 }
 

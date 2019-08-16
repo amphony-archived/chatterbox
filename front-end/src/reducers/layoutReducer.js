@@ -1,7 +1,8 @@
-import { SET_FORM_INDEX } from '../actions/types';
+import { SET_FORM_INDEX, SET_REDIRECT } from '../actions/types';
 
 const initialState = {
-  index: 0
+  formIndex: 0,
+  redirect: false
 }
 
 export default (state=initialState, action) => {
@@ -9,7 +10,12 @@ export default (state=initialState, action) => {
     case SET_FORM_INDEX:
       return {
         ...state,
-        index: action.payload
+        formIndex: action.payload
+      };
+    case SET_REDIRECT:
+      return {
+        ...state,
+        redirect: true
       };
     default:
       return state;

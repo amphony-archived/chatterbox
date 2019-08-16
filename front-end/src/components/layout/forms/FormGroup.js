@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTransition } from 'react-spring';
 import { connect } from 'react-redux';
 import StartForm from './StartForm';
@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import PropTypes from 'prop-types';
 
-const FormGroup = ({ layout: { index } }) => {
+const FormGroup = ({ index }) => {
   const forms = [
     StartForm,
     LoginForm,
@@ -30,11 +30,11 @@ const FormGroup = ({ layout: { index } }) => {
 }
 
 FormGroup.propTypes = {
-  layout: PropTypes.object.isRequired
+  index: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
-  layout: state.layout
+  index: state.layout.formIndex
 })
 
 const formStyle = {
