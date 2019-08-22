@@ -1,6 +1,5 @@
 import {
-  REGISTER_USER,
-  LOGIN_USER,
+  SET_CURRENT_USER,
   GET_USER,
   SEARCH_USERS,
   USER_ERROR,
@@ -8,7 +7,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  accountID: null,
+  currentUser: null,
   user: null,
   users: null,
   loading: false,
@@ -17,10 +16,10 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch (action.type) {
-    case REGISTER_USER:
+    case SET_CURRENT_USER:
       return {
         ...state,
-        accountID: action.payload,
+        currentUser: action.payload,
         loading: false
       };
     case SET_LOADING:

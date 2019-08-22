@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import store from './store';
+
+// Components
 import Landing from './components/pages/Landing';
+import Home from './components/pages/Home';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
@@ -16,9 +20,12 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <div className="App App-header">
-        <Landing />
-      </div>
+      <Router>
+        <div className="App">
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/:user" component={Home} />
+        </div>
+      </Router>
     </Provider>
   );
 }

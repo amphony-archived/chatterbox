@@ -1,6 +1,25 @@
 @import "variables";
 
 /* UTILS */
+// Shapes
+.circle {
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+  padding: 2px;
+  &-small {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8em;
+  }
+}
+
+// Flexbox
+.order {
+  &-0 { order: 0 }
+  &-1 { order: 1 }
+}
+
 .color-primary {
   color: $primary-color !important;
 }
@@ -9,12 +28,46 @@
   background-color: $primary-color;
 }
 
+.pa-1 {
+  padding: 0.3em !important;
+}
+
 .pa-2 {
   padding: 1em !important;
 }
 
+.pl-1 {
+  padding-left: 0.8em !important;
+}
+
+.px-2 {
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+}
+
+.pr-2 {
+  padding-right: 1em !important;
+}
+
 .py {
   padding-top: 1.2em;
+}
+
+.py-1 {
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+}
+
+.pb-1 {
+  padding-bottom: 0.5em;
+}
+
+.ml-1 {
+  margin-left: 0.4em;
+}
+
+.mr-1 {
+  margin-right: 0.4em;
 }
 
 .mb-0 {
