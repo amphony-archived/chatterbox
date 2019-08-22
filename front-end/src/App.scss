@@ -5,10 +5,16 @@
   margin: 0;
 }
 
+// General
 h4 {
   font-weight: 600;
 }
 
+input {
+  border-bottom: none !important;
+}
+
+// App
 .App {
   text-align: center;
   background-color: $primary-color;
