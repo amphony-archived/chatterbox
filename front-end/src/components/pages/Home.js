@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-
 import Sidebar from '../layout/Sidebar/Sidebar';
 import Conversations from '../Conversations/Conversations';
 import Messages from '../Messages/Messages';
+import { getUser } from '../../actions/userActions';
 
-const Home = ({ currentUser }) => {
+const Home = ({ user, getUser }) => {
+  useEffect(() => {
+    if (!user) getUser();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="z-index-2" style={homeStyle}>
@@ -23,6 +27,6 @@ const homeStyle = {
   backgroundColor: '#fff'
 }
 
-const mapStateToProps = state => ({ currentUser: state.user.currentUser });
+const mapStateToProps = state => ({ user: state.user.user });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { getUser })(Home);

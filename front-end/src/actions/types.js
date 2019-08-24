@@ -1,4 +1,4 @@
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_USER = 'SET_USER';
 export const GET_USER = 'GET_USER';
 export const SEARCH_USERS = 'SEARCH_USERS';
 export const USER_ERROR = 'USER_ERROR';

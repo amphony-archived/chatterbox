@@ -1,10 +1,37 @@
 import {
-  SET_CURRENT_USER,
+  SET_USER,
   GET_USER,
   SEARCH_USERS,
   USER_ERROR,
-  SET_LOADING
+  SET_LOADING,
+  SET_REDIRECT
 } from './types';
+
+// Get User
+export const getUser = () => async dispatch => {
+  setLoading();
+
+  const token = await window.localStorage.getItem('jwt-token');
+  
+  if (token) {
+    const res = await fetch('http://localhost:5000/auth', {
+      method: 'get',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'x-auth-token': token
+      }
+    });
+
+    const data = await res.json();
+
+    dispatch({
+      type: SET_USER,
+      payload: data.user
+    });
+  }
+};
 
 // Register User
 export const registerUser = user => async dispatch => {
@@ -25,11 +52,6 @@ export const registerUser = user => async dispatch => {
   const data = await res.json();
   console.log(data);
   window.localStorage.setItem('jwt-token', data.token);
-
-  dispatch({
-    type: SET_CURRENT_USER,
-    payload: username
-  });
 };
 
 // Login User
@@ -46,11 +68,9 @@ export const loginUser = (username, password) => async dispatch => {
 
     if (res.status === 200) {
       const data = await res.json();
-      window.localStorage.setItem('jwt-token', data.token);
-
+      await window.localStorage.setItem('jwt-token', data.token);
       dispatch({
-        type: SET_CURRENT_USER,
-        payload: username
+        type: SET_REDIRECT
       });
     }
   } catch (err) {

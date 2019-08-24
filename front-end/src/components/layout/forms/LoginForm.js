@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { animated } from 'react-spring';
-import { setFormIndex, setRedirect } from '../../../actions/layoutActions';
+import { setFormIndex } from '../../../actions/layoutActions';
 import { loginUser } from '../../../actions/userActions';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ style, redirect, currentUser, setFormIndex, setRedirect, loginUser }) => {
+const LoginForm = ({ style, redirect, user, setFormIndex, loginUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const onLogin = e => {
     e.preventDefault();
     loginUser(username, password);
-    setRedirect();
   };
 
-  if (redirect && currentUser) return <Redirect push to={`/${currentUser}`} />;
+  // TODO: fix logic to use user from application state
+  if (redirect) return <Redirect push to={`/${username}`} />;
 
   return (
     <animated.div className="valign-wrapper pa-2" style={{...style, width: 'inherit', height: 'inherit' }}>
@@ -60,7 +60,7 @@ const LoginForm = ({ style, redirect, currentUser, setFormIndex, setRedirect, lo
 LoginForm.propTypes = {
   style: PropTypes.object.isRequired,
   redirect: PropTypes.bool.isRequired,
-  currentUser: PropTypes.string,
+  user: PropTypes.string,
   setFormIndex: PropTypes.func.isRequired,
   setRedirect: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
@@ -68,7 +68,7 @@ LoginForm.propTypes = {
 
 const mapStateToProps = state => ({
   redirect: state.layout.redirect,
-  currentUser: state.user.currentUser
+  user: state.user.user
 });
 
-export default connect(mapStateToProps, { setFormIndex, setRedirect, loginUser })(LoginForm);
+export default connect(mapStateToProps, { setFormIndex, loginUser })(LoginForm);
