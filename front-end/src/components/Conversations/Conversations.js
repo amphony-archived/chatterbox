@@ -37,7 +37,7 @@ const Conversations = () => {
 
   return (
     <div className="conversations-container">
-      <Searchbar />
+      <Searchbar placeholder={'Search'} />
       <div className="conversations">
         {conversations.map(conversation => (
           <ConversationItem conversation={conversation} />

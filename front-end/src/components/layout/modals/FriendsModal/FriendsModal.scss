@@ -1,0 +1,31 @@
+@import "../../../../variables.scss";
+
+#friends-modal {
+  width: 216px !important;
+  & .modal-content { position: relative; padding: 0; padding-top: 1em; }
+  & input { width: 90%; padding: 0 0.4em; }
+}
+
+.friends-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 200px;
+}
+
+.friends {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.friend {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.2em 0.6em !important;
+  padding-right: 0.6em !important;
+  &:nth-child(1) { border-top: 1px solid rgba(0, 0, 0, 0.2); }
+  & .btn-xsmall { width: 28px; height: 28px; }
+  & i { color: $primary-color; }
+}

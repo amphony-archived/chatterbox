@@ -12,6 +12,11 @@
     height: 30px;
     font-size: 0.8em;
   }
+  &-xsmall {
+    width: 10px;
+    height: 10px;
+    font-size: 0.4em;
+  }
 }
 
 // Flexbox
@@ -43,6 +48,10 @@ a:hover {
 
 .pl-1 {
   padding-left: 0.8em !important;
+}
+
+.px-1 {
+  padding: 0 0.8em;
 }
 
 .px-2 {
