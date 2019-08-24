@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+  preferences: {
+    useFullName: { type: Boolean, default: false },
+    profileColor: { type: String, default: 'blue' }
+  },
   username: {
     type: String,
     required: [true, 'Username is required']
