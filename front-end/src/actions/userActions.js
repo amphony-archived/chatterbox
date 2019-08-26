@@ -3,14 +3,12 @@ import {
   GET_USER,
   SEARCH_USERS,
   USER_ERROR,
-  SET_LOADING,
-  SET_REDIRECT
+  SET_LOADING
 } from './types';
 
-// Get User
-export const getUser = () => async dispatch => {
+// Get User => helper
+const getUserHelper = async () => {
   setLoading();
-
   const token = await window.localStorage.getItem('jwt-token');
   
   if (token) {
@@ -25,13 +23,16 @@ export const getUser = () => async dispatch => {
     });
 
     const data = await res.json();
-
-    dispatch({
-      type: SET_USER,
-      payload: data.user
-    });
+    return data;
   }
-};
+}
+// Get User => dispatch
+export const getUser = () => async dispatch => {
+  // dispatch({
+  //   type: SET_USER,
+  //   payload: data.user
+  // });
+}
 
 // Register User
 export const registerUser = user => async dispatch => {
@@ -50,13 +51,14 @@ export const registerUser = user => async dispatch => {
   });
 
   const data = await res.json();
-  console.log(data);
   window.localStorage.setItem('jwt-token', data.token);
 };
 
 // Login User
 export const loginUser = (username, password) => async dispatch => {
+  console.log('log in user');
   try {
+    console.log('try');
     const res = await fetch('http://localhost:5000/auth', {
       method: 'POST',
       headers: {
@@ -66,15 +68,19 @@ export const loginUser = (username, password) => async dispatch => {
       body: JSON.stringify({ username, password})
     });
 
+    console.log('req finished');
+
     if (res.status === 200) {
       const data = await res.json();
       await window.localStorage.setItem('jwt-token', data.token);
+      const user = await getUserHelper();
       dispatch({
-        type: SET_REDIRECT
+        type: SET_USER,
+        payload: user.user
       });
     }
   } catch (err) {
-    console.log(err.array);
+    console.error(err);
   }
 }
 

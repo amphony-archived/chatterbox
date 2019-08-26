@@ -1,34 +1,28 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router';
+// import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import FormGroup from '../layout/forms/FormGroup';
-import Loading from '../layout/Loading/Loading';
 import { getUser } from '../../actions/userActions';
 import landingImage from '../../assets/landing.jpg';
 
-const Landing = ({ loading, user, getUser }) => {
+const Landing = ({ user, getUser }) => {
   useEffect(() => {
-    getUser();
+    // getUser();
     // eslint-disable-next-line
   }, []);
 
   // if user has token, redirect to main page
-  if (user) return <Redirect push to={`/${user.username}`} />;
+  // if (user) return <Redirect push to={`/${user.username}`} />;
 
-  if (loading) {
-    return <Loading />
-  } else {
-    return (
-      <div className="row grey lighten-4 z-depth-2" style={containerStyle}>
-        <div className="col s7" style={visualStyle}>
-          <h4>Welcome to Chatterbox!</h4>
-          <p>The place where you chat with your friends.</p>
-        </div>
-        <FormGroup />
+  return (
+    <div className="row grey lighten-4 z-depth-2" style={containerStyle}>
+      <div className="col s7" style={visualStyle}>
+        <h4>Welcome to Chatterbox!</h4>
+        <p>The place where you chat with your friends.</p>
       </div>
-    )
-  }
-
+      <FormGroup />
+    </div>
+  )
 }
 
 const containerStyle = {
@@ -51,9 +45,6 @@ const visualStyle = {
   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)), url(${landingImage})`
 }
 
-const mapStateToProps = state => ({
-  user: state.user.user,
-  loading: state.user.loading
-});
+const mapStateToProps = state => ({ user: state.user.user });
 
 export default connect(mapStateToProps, { getUser })(Landing);
