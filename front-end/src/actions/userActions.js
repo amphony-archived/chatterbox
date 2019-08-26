@@ -34,6 +34,14 @@ export const getUser = () => async dispatch => {
   // });
 }
 
+// Update user
+export const updateUser = updatedUser => {
+  return {
+    type: SET_USER,
+    payload: updatedUser
+  };
+}
+
 // Register User
 export const registerUser = user => async dispatch => {
   setLoading();

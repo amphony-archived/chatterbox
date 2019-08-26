@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
   preferences: {
-    useFullName: { type: Boolean, default: false },
+    displayMode: { type: String, default: 'username' },
     profileColor: { type: String, default: 'blue' }
   },
   username: {

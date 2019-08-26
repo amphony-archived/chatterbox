@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { updateUser } from '../../../../actions/userActions';
 import './ProfileModal.scss';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const ProfileModal = ({ user }) => {
+const ProfileModal = ({ user, updateUser }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [username, setUsername] = useState(user.username);
-  const [displayMode, setDisplayMode] = useState(user.preferences.useFullName);
+  const [displayMode, setDisplayMode] = useState(user.preferences.displayMode);
   const [profileColor, setProfileColor] = useState(user.preferences.profileColor);
-  const [displayName, setDisplayName] = useState();
   const profileColors = ['red', 'orange', 'purple', 'blue', 'green'];
   
   // Return full name or username based on user preferences
   const getDisplayName = () => {
-    return (displayMode ? username : `${firstName} ${lastName}`);
+    return (displayMode === 'username' ? username : `${firstName} ${lastName}`);
   }
 
   // Constructs profile color radio buttons
@@ -25,7 +25,7 @@ const ProfileModal = ({ user }) => {
           <input
             type="radio"
             checked={color === profileColor}
-            onChange={() => onChangeColor(color)}
+            onChange={() => setProfileColor(color)}
           />
           <span>{color}</span>
         </label>
@@ -33,20 +33,16 @@ const ProfileModal = ({ user }) => {
     )
   }
 
-  // Event handlers
-  const onChangeColor = color => {
-    console.log(color);
-    setProfileColor(color);
-  }
-
   const onSaveChanges = () => {
-    user = {
+    updateUser({
       ...user,
       firstName,
       lastName,
-      username,
-      useFullName: displayMode
-    }
+      preferences: {
+        displayMode,
+        profileColor
+      }
+    });
   }
 
   useEffect(() => {
@@ -93,8 +89,8 @@ const ProfileModal = ({ user }) => {
                   Use Full Name
                   <input
                     type="checkbox"
-                    checked={displayMode}
-                    onChange={() => setDisplayMode(!displayMode)}
+                    checked={displayMode === 'username'}
+                    onChange={() => setDisplayMode(displayMode === 'username' ? 'fullname' : 'username')}
                   />
                   <span class="lever"></span>
                   Use Username
@@ -133,4 +129,4 @@ const ProfileModal = ({ user }) => {
 
 const mapStateToProps = state => ({ user: state.user.user });
 
-export default connect(mapStateToProps)(ProfileModal);
+export default connect(mapStateToProps, { updateUser })(ProfileModal);
