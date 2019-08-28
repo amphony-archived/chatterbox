@@ -72,6 +72,20 @@ const registerUserRoutes = app => {
     }
   });
 
+  // @route PUT /users
+  // @desc  Update user info
+  // @access Private
+  app.put('/users', auth, async (req, res) => {
+    try {
+      let updatedUser = req.body;
+      let user = await User.findByIdAndUpdate(req.user.id, updatedUser).select('-password');
+      return res.status(200).json({ user });
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err });
+    }
+  });
+
   // @route  Get /contacts
   // @desc   Gets user contacts
   // @access Private

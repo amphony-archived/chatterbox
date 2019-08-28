@@ -14,11 +14,13 @@ const connectDB = () => {
   const uri = `mongodb+srv://${user}:${password}@${cluster}-gqbrm.mongodb.net/${db}`;
 
   // Connect DB
-  mongoose.connect(uri)
-    .then(() => {
-      console.log('Successfully connected to database');
-    })
-    .catch(err => console.log(err.message));
+  mongoose.connect(uri, {
+    useFindAndModify: false
+  })
+  .then(() => {
+    console.log('Successfully connected to database');
+  })
+  .catch(err => console.log(err.message));
 };
 
 module.exports = {

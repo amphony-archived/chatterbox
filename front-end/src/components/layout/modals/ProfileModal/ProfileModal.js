@@ -23,6 +23,7 @@ const ProfileModal = ({ user, updateUser }) => {
       <p>
         <label>
           <input
+            key={color}
             type="radio"
             checked={color === profileColor}
             onChange={() => setProfileColor(color)}
@@ -92,7 +93,7 @@ const ProfileModal = ({ user, updateUser }) => {
                     checked={displayMode === 'username'}
                     onChange={() => setDisplayMode(displayMode === 'username' ? 'fullname' : 'username')}
                   />
-                  <span class="lever"></span>
+                  <span className="lever"></span>
                   Use Username
                 </label>
               </div>
