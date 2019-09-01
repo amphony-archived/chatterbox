@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+  conversations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'conversations' }],
   preferences: {
     displayMode: { type: String, default: 'username' },
     profileColor: { type: String, default: 'blue' }
