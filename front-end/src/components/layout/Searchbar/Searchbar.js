@@ -1,13 +1,19 @@
 import React from 'react';
 import './Searchbar.scss';
 
-const Searchbar = props => {
-  const placeholder = props.placeholder;
+const Searchbar = ({ placeholder, action, clear }) => {
+  const onChangeInput = e => {
+    e.target.value.length > 0 ? action(e.target.value) : clear();
+  }
 
   return (
-    <div className="searchbar left-align px-2">
-      <input type="text" placeholder={placeholder} />
-    </div>
+    <form className="searchbar left-align px-2" >
+      <input
+        type="text"
+        onChange={onChangeInput}
+        placeholder={placeholder}
+      />
+    </form>
   )
 }
 

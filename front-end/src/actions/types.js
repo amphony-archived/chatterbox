@@ -1,5 +1,7 @@
 export const SET_USER = 'SET_USER';
-export const GET_USER = 'GET_USER';
+export const SET_USERS = 'SET_USERS';
+export const SET_CONTACTS = 'SET_CONTACTS';
+export const UPDATE_CONTACTS = 'UPDATE_CONTACTS';
 export const SEARCH_USERS = 'SEARCH_USERS';
 export const USER_ERROR = 'USER_ERROR';
 export const SET_LOADING = 'SET_LOADING';

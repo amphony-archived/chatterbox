@@ -1,8 +1,8 @@
 import {
   SET_USER,
-  GET_USER,
-  SEARCH_USERS,
-  USER_ERROR,
+  SET_USERS,
+  SET_CONTACTS,
+  UPDATE_CONTACTS,
   SET_LOADING
 } from './types';
 
@@ -28,10 +28,59 @@ const getUserHelper = async () => {
 }
 // Get User => dispatch
 export const getUser = () => async dispatch => {
-  // dispatch({
-  //   type: SET_USER,
-  //   payload: data.user
-  // });
+  setLoading();
+  const token = await window.localStorage.getItem('jwt-token');
+  
+  if (token) {
+    const res = await fetch('http://localhost:5000/auth', {
+      method: 'get',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'x-auth-token': token
+      }
+    });
+
+    const data = await res.json()
+    dispatch({
+      type: SET_USER,
+      payload: data.user
+    });
+  }
+}
+
+// Get users
+export const getUsers = query => async dispatch => {
+  try {
+    const token = await window.localStorage.getItem('jwt-token');
+    const res = await fetch(`http://localhost:5000/users/?username=${query}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'x-auth-token': token
+      }
+    });
+
+    if (res.status === 200) {
+      const data = await res.json();
+      dispatch({
+        type: SET_USERS,
+        payload: data.users
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Clear users
+export const clearUsers = () => {
+  return {
+    type: SET_USERS,
+    payload: []
+  }
 }
 
 // Update user
@@ -62,11 +111,66 @@ export const registerUser = user => async dispatch => {
   window.localStorage.setItem('jwt-token', data.token);
 };
 
+// Get Contacts
+export const getContacts = () => async dispatch => {
+  try {
+    setLoading();
+    const token = await window.localStorage.getItem('jwt-token');
+    const res = await fetch('http://localhost:5000/contacts', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'x-auth-token': token 
+      }
+    });
+
+    if (res.status === 200) {
+      const data = await res.json();
+      const contacts = data.contacts.map(contact => {
+        contact.isFriend = true;
+        return contact;
+      });
+      dispatch({
+        type: SET_CONTACTS,
+        payload: contacts
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Add Contact
+export const addContact = user => async dispatch => {
+  try {
+    setLoading();
+    const token = await window.localStorage.getItem('jwt-token');
+    const res = await fetch('http://localhost:5000/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'x-auth-token': token
+      },
+      body: JSON.stringify({ contact: user._id })
+    });
+
+    if (res.status === 200) {
+      const data = await res.json();
+      dispatch({
+        type: SET_CONTACTS,
+        payload: data.user.contacts
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 // Login User
 export const loginUser = (username, password) => async dispatch => {
-  console.log('log in user');
   try {
-    console.log('try');
     const res = await fetch('http://localhost:5000/auth', {
       method: 'POST',
       headers: {
@@ -75,8 +179,6 @@ export const loginUser = (username, password) => async dispatch => {
       },
       body: JSON.stringify({ username, password})
     });
-
-    console.log('req finished');
 
     if (res.status === 200) {
       const data = await res.json();

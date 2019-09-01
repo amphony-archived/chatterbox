@@ -1,25 +1,69 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import Searchbar from '../../Searchbar/Searchbar';
+import { getContacts, addContact, getUsers, clearUsers } from '../../../../actions/userActions';
 import './FriendsModal.scss';
 
-const FriendsModal = props => {
-  const { friends, isOnline } = props;
+const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clearUsers }) => {
+  useEffect(() => {
+    if (contacts.length === 0) getContacts();
+    // eslint-disable-next-line
+  }, []);
+
+  const isOnline = user => {
+    return (user.online ? 'green' : 'grey');
+  }
+
+  const onAddContact = async user => {
+    await addContact(user);
+    getContacts();
+  }
+
   return (
     <div>
       <div id="friends-modal" className="modal">
         <div className="modal-content">
           <h4 className="mr-1">Friends</h4>
-          <Searchbar placeholder={'Search by username'}/>
+          <Searchbar
+            action={getUsers}
+            clear={clearUsers}
+            placeholder={'Search by username'}
+          />
           <div className="friends-container">
             <div className="friends">
-              {friends.map(friend => (
+              { users.length > 0 && users.map(user => (
                 <div className="friend valign-wrapper">
-                  <p key={friend.name} className="valign-wrapper">
-                    <span className={`${isOnline(friend)}-text mr-1`}>{friend.name}</span>
-                    <span className={`circle circle-xsmall ${isOnline(friend)}`}></span>
+                  <p key={user.name} className="valign-wrapper">
+                    <span className={`${isOnline(user)}-text mr-1`}>{user.username}</span>
+                    <span className={`circle circle-xsmall ${isOnline(user)}`}></span>
                   </p>
                   <div className="valign-wrapper">
-                    { !friend.isFriend && (
+                    { !user.isFriend && (
+                      <i
+                        className="material-icons mr-1"
+                        onClick={() => onAddContact(user)}
+                      >
+                        person_add
+                      </i>
+                    )}
+                    <i className="material-icons">message</i>
+                  </div>
+                </div>
+              ))}
+              { contacts.length === 0 && (
+                <div className="valign-wrapper" style={{ height: '100%' }}>
+                  <p className="friends-text pa-1">You have no friends. Add some.</p>
+                </div>
+                )
+              }
+              { (users.length === 0 && contacts.length > 0) && contacts.map(contact => (
+                <div className="friend valign-wrapper">
+                  <p key={contact.name} className="valign-wrapper">
+                    <span className={`${isOnline(contact)}-text mr-1`}>{contact.username}</span>
+                    <span className={`circle circle-xsmall ${isOnline(contact)}`}></span>
+                  </p>
+                  <div className="valign-wrapper">
+                    { !contact.isFriend && (
                       <i className="material-icons mr-1">person_add</i>
                     )}
                     <i className="material-icons">message</i>
@@ -37,4 +81,9 @@ const FriendsModal = props => {
   )
 }
 
-export default FriendsModal;
+const mapStateToProps = state => ({
+  contacts: state.user.contacts,
+  users: state.user.users
+});
+
+export default connect(mapStateToProps, { getContacts, addContact, getUsers, clearUsers })(FriendsModal);

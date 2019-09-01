@@ -12,48 +12,6 @@ const Sidebar = () => {
     // eslint-disable-next-line
   }, []);
 
-  const friends = [
-    { 
-      name: 'Judy',
-      online: true,
-      isFriend: true
-    },
-    { 
-      name: 'Judy',
-      online: false,
-      isFriend: true
-    },
-    { 
-      name: 'Judy',
-      online: true,
-      isFriend: false
-    },
-    { 
-      name: 'Judy',
-      online: false,
-      isFriend: false
-    },
-    { 
-      name: 'Judy',
-      online: true,
-      isFriend: false
-    },
-    { 
-      name: 'Judy',
-      online: true,
-      isFriend: true
-    },
-    { 
-      name: 'Judy',
-      online: false,
-      isFriend: false
-    }
-  ];
-
-  const isOnline = user => {
-    return (user.online ? 'green' : 'grey');
-  }
-
   return (
     <div className="sidebar blue darken-2 py-1">
       <div className="sidebar-icons">
@@ -71,7 +29,7 @@ const Sidebar = () => {
         </div>
       </div>
       <ProfileModal />
-      <FriendsModal friends={friends} isOnline={isOnline} />
+      <FriendsModal />
     </div>
   )
 }

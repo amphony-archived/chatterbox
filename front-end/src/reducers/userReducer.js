@@ -1,14 +1,15 @@
 import {
   SET_USER,
-  GET_USER,
-  SEARCH_USERS,
-  USER_ERROR,
+  SET_USERS,
+  SET_CONTACTS,
+  UPDATE_CONTACTS,
   SET_LOADING
 } from '../actions/types';
 
 const initialState = {
   user: null,
-  users: null,
+  users: [],
+  contacts: [],
   loading: false,
   error: null
 }
@@ -21,6 +22,24 @@ export default (state=initialState, action) => {
         user: action.payload,
         loading: false
       };
+    case SET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: false
+      };
+    case SET_CONTACTS:
+      return {
+        ...state,
+        contacts: action.payload,
+        loading: false
+      };
+    case UPDATE_CONTACTS:
+      return {
+        ...state,
+        contacts: [...state.contacts, action.payload],
+        loading: false
+      }
     case SET_LOADING:
       return {
         ...state,
