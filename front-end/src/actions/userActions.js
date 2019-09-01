@@ -2,7 +2,6 @@ import {
   SET_USER,
   SET_USERS,
   SET_CONTACTS,
-  UPDATE_CONTACTS,
   SET_LOADING
 } from './types';
 

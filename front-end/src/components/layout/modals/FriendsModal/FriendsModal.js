@@ -2,9 +2,19 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Searchbar from '../../Searchbar/Searchbar';
 import { getContacts, addContact, getUsers, clearUsers } from '../../../../actions/userActions';
+import { addConversation } from '../../../../actions/conversationActions';
 import './FriendsModal.scss';
 
-const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clearUsers }) => {
+const FriendsModal = ({
+  currentUser, 
+  users,
+  contacts,
+  getUsers,
+  clearUsers,
+  getContacts,
+  addContact,
+  addConversation
+}) => {
   useEffect(() => {
     if (contacts.length === 0) getContacts();
     // eslint-disable-next-line
@@ -17,6 +27,11 @@ const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clea
   const onAddContact = async user => {
     await addContact(user);
     getContacts();
+  }
+
+  const onAddConversation = user => {
+    const participants = [currentUser._id, user._id];
+    addConversation(participants);
   }
 
   return (
@@ -46,7 +61,12 @@ const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clea
                         person_add
                       </i>
                     )}
-                    <i className="material-icons">message</i>
+                    <i
+                      className="material-icons"
+                      onClick={() => onAddConversation(user)}
+                    >
+                      message
+                    </i>
                   </div>
                 </div>
               ))}
@@ -66,7 +86,12 @@ const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clea
                     { !contact.isFriend && (
                       <i className="material-icons mr-1">person_add</i>
                     )}
-                    <i className="material-icons">message</i>
+                    <i
+                      className="material-icons"
+                      onClick={() => onAddConversation(contact)}
+                    >
+                      message
+                    </i>
                   </div>
                 </div>
               ))}
@@ -82,8 +107,15 @@ const FriendsModal = ({ contacts, getContacts, addContact, users, getUsers, clea
 }
 
 const mapStateToProps = state => ({
-  contacts: state.user.contacts,
-  users: state.user.users
+  currentUser: state.user.user,
+  users: state.user.users,
+  contacts: state.user.contacts
 });
 
-export default connect(mapStateToProps, { getContacts, addContact, getUsers, clearUsers })(FriendsModal);
+export default connect(mapStateToProps, {
+  getUsers,
+  clearUsers,
+  getContacts,
+  addContact,
+  addConversation
+})(FriendsModal);

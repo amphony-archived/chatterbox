@@ -2,7 +2,6 @@ import {
   SET_USER,
   SET_USERS,
   SET_CONTACTS,
-  UPDATE_CONTACTS,
   SET_LOADING
 } from '../actions/types';
 
@@ -34,12 +33,6 @@ export default (state=initialState, action) => {
         contacts: action.payload,
         loading: false
       };
-    case UPDATE_CONTACTS:
-      return {
-        ...state,
-        contacts: [...state.contacts, action.payload],
-        loading: false
-      }
     case SET_LOADING:
       return {
         ...state,

@@ -61,7 +61,7 @@ const LoginForm = ({ style, redirect, user, setFormIndex, setRedirect, loginUser
 LoginForm.propTypes = {
   style: PropTypes.object.isRequired,
   redirect: PropTypes.bool.isRequired,
-  user: PropTypes.string,
+  user: PropTypes.object,
   setFormIndex: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
 }

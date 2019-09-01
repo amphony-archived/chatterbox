@@ -20,7 +20,7 @@ const ProfileModal = ({ user, updateUser }) => {
   // Constructs profile color radio buttons
   const constructProfileColor = color => {
     return (
-      <p>
+      <p key={color}>
         <label>
           <input
             key={color}
@@ -85,7 +85,7 @@ const ProfileModal = ({ user, updateUser }) => {
                 />
                 <label htmlFor="firstname">Username</label>
               </div>
-              <div class="switch">
+              <div className="switch">
                 <label>
                   Use Full Name
                   <input
