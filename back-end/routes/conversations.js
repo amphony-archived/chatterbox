@@ -17,10 +17,26 @@ const registerConversationRoutes = app => {
       return res.status(400).json({ error: err });
     }
 
-    Conversation.find({ '_id': { '$in': user.conversations }}, (err, conversations) => {
-      if (err) return res.status(400).json({ error: err });
-      res.json({ conversations });
-    });
+    // Retrieve user conversations
+    let conversations = await Conversation.find({ '_id': { '$in': user.conversations }});
+
+    await Promise.all(conversations.map(conversation => {
+      return User.find({ '_id': { '$in': conversation.participants }}).select('-password');
+    }))
+    .then(users => {
+      let finalConversations = [];
+      for (let i = 0; i < conversations.length; i++) {
+        const { _id, messages, created } = conversations[i];
+        finalConversations.push({
+          _id,
+          messages,
+          created,
+          participants: users[i]
+        });
+      }
+      res.json({ conversations: finalConversations });
+    })
+    .catch(err => console.log(err));
   });
 
   // @route  POST /conversations
@@ -34,7 +50,7 @@ const registerConversationRoutes = app => {
       });
       await conversation.save();
       await User.findByIdAndUpdate(req.user.id, { $push: { conversations: conversation }});
-      res.json({ conversation });
+      res.json({ user });
     } catch (err) {
       console.error(err);
       return res.status(400).json({ error: err });

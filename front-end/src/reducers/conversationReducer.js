@@ -12,7 +12,7 @@ export default (state=initialState, action) => {
     case SET_CONVERSATIONS:
       return {
         ...state,
-        conversations: [...state.conversations, action.payload]
+        conversations: action.payload
       };
     default:
       return state;

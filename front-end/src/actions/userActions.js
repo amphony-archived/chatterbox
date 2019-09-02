@@ -25,6 +25,7 @@ const getUserHelper = async () => {
     return data;
   }
 }
+
 // Get User => dispatch
 export const getUser = () => async dispatch => {
   setLoading();
@@ -74,14 +75,6 @@ export const getUsers = query => async dispatch => {
   }
 }
 
-// Clear users
-export const clearUsers = () => {
-  return {
-    type: SET_USERS,
-    payload: []
-  }
-}
-
 // Update user
 export const updateUser = updatedUser => {
   return {
@@ -90,25 +83,13 @@ export const updateUser = updatedUser => {
   };
 }
 
-// Register User
-export const registerUser = user => async dispatch => {
-  setLoading();
-
-  const { username } = user;
-
-  const res = await fetch('http://localhost:5000/users', {
-    method: 'post',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify(user)
-  });
-
-  const data = await res.json();
-  window.localStorage.setItem('jwt-token', data.token);
-};
+// Clear users
+export const clearUsers = () => {
+  return {
+    type: SET_USERS,
+    payload: []
+  }
+}
 
 // Get Contacts
 export const getContacts = () => async dispatch => {
@@ -166,6 +147,26 @@ export const addContact = user => async dispatch => {
     console.error(err);
   }
 }
+
+// Register User
+export const registerUser = user => async dispatch => {
+  setLoading();
+
+  const { username } = user;
+
+  const res = await fetch('http://localhost:5000/users', {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(user)
+  });
+
+  const data = await res.json();
+  window.localStorage.setItem('jwt-token', data.token);
+};
 
 // Login User
 export const loginUser = (username, password) => async dispatch => {

@@ -1,45 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getConversations } from '../../actions/conversationActions';
 import Searchbar from '../layout/Searchbar/Searchbar';
 import ConversationItem from './ConversationItem';
 import './Conversations.scss';
 
-const Conversations = () => {
-  const conversations = [
-    {
-      user: "Jonathan Ma",
-      messages: ["hey, what's up?", "i'm doing to hop in cod in a bit. down?"]
-    },
-    {
-      user: "Snake",
-      messages: ["I've located Shadow Moses..."]
-    },
-    {
-      user: "Handler",
-      messages: ["Hey, partner!"]
-    },
-    {
-      user: "Harry Potter",
-      messages: ["hey, what's up?", "EXPECTO PETROLEUM!"]
-    },
-    {
-      user: "Dexter",
-      messages: ["hey, what's up?", "Get our of my lab!"]
-    },
-    {
-      user: "Au Yeung",
-      messages: ["hey, what's up?", "Time for the test you lousy mongrels"]
-    },
-    {
-      user: "Jonathan Ma",
-      messages: ["hey, what's up?", "i'm doing to hop in cod in a bit. down?"]
-    }
-  ];
+const Conversations = ({ user, conversations, getConversations }) => {
+  useEffect(() => {
+    if (conversations.length === 0) getConversations();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="conversations-container">
-      <Searchbar placeholder={'Search'} />
+      <Searchbar placeholder={'Search Conversations'} />
       <div className="conversations">
-        {conversations.map(conversation => (
+        {conversations.length === 0 && (
+          <div className="valign-wrapper" style={{ height: '100%' }}>
+            <p className="grey-text">You haven't started any conversations.</p>
+          </div>
+        )}
+        {conversations.length > 0 && conversations.map(conversation => (
           <ConversationItem conversation={conversation} />
         ))}
       </div>
@@ -47,4 +28,9 @@ const Conversations = () => {
   )
 }
 
-export default Conversations;
+const mapStateToProps = state => ({
+  user: state.user.user,
+  conversations: state.conversation.conversations
+});
+
+export default connect(mapStateToProps, { getConversations })(Conversations);

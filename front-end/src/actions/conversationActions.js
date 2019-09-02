@@ -41,7 +41,7 @@ export const addConversation = participants => async dispatch => {
       const data = await res.json();
       dispatch({
         type: SET_CONVERSATIONS,
-        payload: data.conversation
+        payload: data.user.conversations
       });
     }
   } catch (err) {

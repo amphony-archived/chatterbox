@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Searchbar from '../../Searchbar/Searchbar';
 import { getContacts, addContact, getUsers, clearUsers } from '../../../../actions/userActions';
-import { addConversation } from '../../../../actions/conversationActions';
+import { addConversation, getConversations } from '../../../../actions/conversationActions';
 import './FriendsModal.scss';
 
 const FriendsModal = ({
@@ -13,7 +13,8 @@ const FriendsModal = ({
   clearUsers,
   getContacts,
   addContact,
-  addConversation
+  addConversation,
+  getConversations
 }) => {
   useEffect(() => {
     if (contacts.length === 0) getContacts();
@@ -29,9 +30,10 @@ const FriendsModal = ({
     getContacts();
   }
 
-  const onAddConversation = user => {
+  const onAddConversation = async user => {
     const participants = [currentUser._id, user._id];
-    addConversation(participants);
+    await addConversation(participants);
+    getConversations();
   }
 
   return (
@@ -46,7 +48,7 @@ const FriendsModal = ({
           />
           <div className="friends-container">
             <div className="friends">
-              { users.length > 0 && users.map(user => (
+              { users.length > 0 && users.filter(user => !currentUser.contacts.includes(user._id)).map(user => (
                 <div className="friend valign-wrapper">
                   <p key={user.name} className="valign-wrapper">
                     <span className={`${isOnline(user)}-text mr-1`}>{user.username}</span>
@@ -117,5 +119,6 @@ export default connect(mapStateToProps, {
   clearUsers,
   getContacts,
   addContact,
-  addConversation
+  addConversation,
+  getConversations
 })(FriendsModal);
