@@ -1,6 +1,15 @@
 import {
+  SET_CONVERSATION,
   SET_CONVERSATIONS
 } from './types';
+
+// Get single conversation
+export const getConversation = conversation => {
+  return {
+    type: SET_CONVERSATION,
+    payload: conversation
+  }
+}
 
 // Get conversations
 export const getConversations = () => async dispatch => {

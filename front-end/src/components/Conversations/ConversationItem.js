@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getConversation } from '../../actions/conversationActions';
 
-const ConversationItem = ({ conversation }) => {
+const ConversationItem = ({ conversation, getConversation }) => {
   const { participants, messages } = conversation;
   const { preferences, username } = participants[0];
 
@@ -9,6 +11,7 @@ const ConversationItem = ({ conversation }) => {
       <div
         key={conversation._id}
         className="conversation valign-wrapper py-1 pl-1 pr-2"
+        onClick={() => getConversation(conversation)}
       >
         <div className={`conversation-profile valign-wrapper ${preferences && preferences.profileColor}`}>
           <p className="align-center mx-auto">
@@ -28,4 +31,4 @@ const ConversationItem = ({ conversation }) => {
   }
 }
 
-export default ConversationItem;
+export default connect(null, { getConversation })(ConversationItem);

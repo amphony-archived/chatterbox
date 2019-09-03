@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getConversations } from '../../actions/conversationActions';
+import { getConversation, getConversations } from '../../actions/conversationActions';
 import Searchbar from '../layout/Searchbar/Searchbar';
 import ConversationItem from './ConversationItem';
 import './Conversations.scss';
 
-const Conversations = ({ user, conversations, getConversations }) => {
+const Conversations = ({ user, conversations, getConversation, getConversations }) => {
   useEffect(() => {
     if (conversations.length === 0) getConversations();
     // eslint-disable-next-line
@@ -33,4 +33,4 @@ const mapStateToProps = state => ({
   conversations: state.conversation.conversations
 });
 
-export default connect(mapStateToProps, { getConversations })(Conversations);
+export default connect(mapStateToProps, { getConversation, getConversations })(Conversations);
