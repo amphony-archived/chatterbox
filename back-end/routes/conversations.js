@@ -2,7 +2,6 @@ require('dotenv').config();
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const auth = require('../middleware/auth');
-const { check, validationResult } = require('express-validator');
 
 const registerConversationRoutes = app => {
   // @route  GET /conversations
@@ -49,7 +48,7 @@ const registerConversationRoutes = app => {
         messages: []
       });
       await conversation.save();
-      await User.findByIdAndUpdate(req.user.id, { $push: { conversations: conversation }});
+      const user = await User.findByIdAndUpdate(req.user.id, { $push: { conversations: conversation }});
       res.json({ user });
     } catch (err) {
       console.error(err);
