@@ -11,18 +11,16 @@ const connectDB = () => {
   const password = process.env.DB_PASSWORD;
   const cluster = process.env.DB_CLUSTER || dbConfig.cluster;
   const db = process.env.DB_NAME || dbConfig.name;
-  const uri = `mongodb+srv://${user}:${password}@${cluster}-gqbrm.mongodb.net/${db}?retryWrites=true`;
+  const uri = `mongodb+srv://${user}:${password}@${cluster}-gqbrm.mongodb.net/${db}`;
 
   // Connect DB
-  mongoose.connect(uri,
-    {
-      useNewUrlParser: true,
-      useFindAndModify: false
-    })
-    .then(() => {
-      console.log('Successfully connected to database');
-    })
-    .catch(err => console.log(err.message));
+  mongoose.connect(uri, {
+    useFindAndModify: false
+  })
+  .then(() => {
+    console.log('Successfully connected to database');
+  })
+  .catch(err => console.log(err.message));
 };
 
 module.exports = {

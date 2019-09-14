@@ -18,5 +18,6 @@ app.use(cors());
 // Routes
 require('./routes/users')(app);
 require('./routes/auth')(app);
+require('./routes/conversations')(app);
 
 app.listen(port, () => console.log(`App listening on port ${port}.`));

@@ -1,0 +1,41 @@
+@import "../../../../variables.scss";
+
+#friends-modal {
+  width: 216px !important;
+  & .modal-content { position: relative; padding: 0; padding-top: 1em; }
+  & input { width: 90%; padding: 0 0.4em; }
+}
+
+.friends {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll !important;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  &::-webkit-scrollbar { width: 0 !important; }
+  &-container {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden !important;
+  }
+  &-text {
+    color: #707070;
+    font-size: 0.8em;
+  }
+}
+
+.friend {
+  display: flex;
+  font-size: 0.8em;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.2em 0.6em !important;
+  padding-right: 0.6em !important;
+  &:nth-child(1) { border-top: 1px solid rgba(0, 0, 0, 0.2); }
+  & .btn-xsmall { width: 28px; height: 28px; }
+  & i {
+    cursor: pointer;
+    color: $primary-color;
+  }
+}

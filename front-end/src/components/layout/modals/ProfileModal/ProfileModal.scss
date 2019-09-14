@@ -1,0 +1,11 @@
+.profile-colors {
+  & p {
+    display: inline-block;
+    margin-right: 1.2em;
+  }
+}
+
+.profile-preview {
+  display: flex;
+  justify-content: center;
+}

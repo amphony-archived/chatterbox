@@ -7,10 +7,20 @@
   text-align: center;
   border-radius: 50%;
   padding: 2px;
+  &-medium {
+    width: 40px;
+    height: 40px;
+    font-size: 1em;
+  }
   &-small {
     width: 30px;
     height: 30px;
     font-size: 0.8em;
+  }
+  &-xsmall {
+    width: 8px;
+    height: 8px;
+    font-size: 0.4em;
   }
 }
 
@@ -28,6 +38,11 @@
   background-color: $primary-color;
 }
 
+// General
+a:hover {
+  text-decoration: none !important;
+}
+
 .pa-1 {
   padding: 0.3em !important;
 }
@@ -38,6 +53,10 @@
 
 .pl-1 {
   padding-left: 0.8em !important;
+}
+
+.px-1 {
+  padding: 0 0.8em;
 }
 
 .px-2 {
@@ -84,6 +103,10 @@
 
 .mb-3 {
   margin-bottom: 1.2em !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.6em !important;
 }
 
 .mx-auto {

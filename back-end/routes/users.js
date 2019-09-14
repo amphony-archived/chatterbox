@@ -72,6 +72,20 @@ const registerUserRoutes = app => {
     }
   });
 
+  // @route PUT /users
+  // @desc  Update user info
+  // @access Private
+  app.put('/users', auth, async (req, res) => {
+    try {
+      let updatedUser = req.body;
+      let user = await User.findByIdAndUpdate(req.user.id, updatedUser).select('-password');
+      return res.status(200).json({ user });
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err });
+    }
+  });
+
   // @route  Get /contacts
   // @desc   Gets user contacts
   // @access Private
@@ -86,19 +100,18 @@ const registerUserRoutes = app => {
 
     User.find({ '_id': { '$in': user.contacts }}, (err, contacts) => {
       if (err) return res.status(400).json({ error: err });
-      console.log(contacts);
       res.json({ contacts });
-    });
+    }).select('-password');
   });
 
   // @route  POST /contacts
   // @desc   Add contact to current user
   // @access Private
   app.post('/contacts', auth, async (req, res) => {
-    User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, contact) => {
+    User.findByIdAndUpdate(req.user.id, { $push: { contacts: req.body.contact }}, (err, user) => {
       if (err) return res.status(400).json({ error: err });
-      console.log(contact);
-      res.json({ contact });
+      console.log(user);
+      res.json({ user });
     });
   });
 

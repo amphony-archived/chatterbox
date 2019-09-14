@@ -6,7 +6,7 @@ import { setFormIndex, setRedirect } from '../../../actions/layoutActions';
 import { loginUser } from '../../../actions/userActions';
 import PropTypes from 'prop-types';
 
-const LoginForm = ({ style, redirect, currentUser, setFormIndex, setRedirect, loginUser }) => {
+const LoginForm = ({ style, redirect, user, setFormIndex, setRedirect, loginUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,7 +16,8 @@ const LoginForm = ({ style, redirect, currentUser, setFormIndex, setRedirect, lo
     setRedirect();
   };
 
-  if (redirect && currentUser) return <Redirect push to={`/${currentUser}`} />;
+  // TODO: fix logic to use user from application state
+  if (redirect && user) return <Redirect push to={`/${user.username}`} />;
 
   return (
     <animated.div className="valign-wrapper pa-2" style={{...style, width: 'inherit', height: 'inherit' }}>
@@ -60,15 +61,14 @@ const LoginForm = ({ style, redirect, currentUser, setFormIndex, setRedirect, lo
 LoginForm.propTypes = {
   style: PropTypes.object.isRequired,
   redirect: PropTypes.bool.isRequired,
-  currentUser: PropTypes.string,
+  user: PropTypes.object,
   setFormIndex: PropTypes.func.isRequired,
-  setRedirect: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   redirect: state.layout.redirect,
-  currentUser: state.user.currentUser
+  user: state.user.user
 });
 
 export default connect(mapStateToProps, { setFormIndex, setRedirect, loginUser })(LoginForm);

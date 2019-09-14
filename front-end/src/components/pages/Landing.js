@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+// import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
 import FormGroup from '../layout/forms/FormGroup';
+import { getUser } from '../../actions/userActions';
 import landingImage from '../../assets/landing.jpg';
 
-const Landing = () => {
+const Landing = ({ user, getUser }) => {
+  useEffect(() => {
+    // getUser();
+    // eslint-disable-next-line
+  }, []);
+
+  // if user has token, redirect to main page
+  // if (user) return <Redirect push to={`/${user.username}`} />;
+
   return (
     <div className="row grey lighten-4 z-depth-2" style={containerStyle}>
       <div className="col s7" style={visualStyle}>
@@ -34,4 +45,6 @@ const visualStyle = {
   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)), url(${landingImage})`
 }
 
-export default Landing;
+const mapStateToProps = state => ({ user: state.user.user });
+
+export default connect(mapStateToProps, { getUser })(Landing);
