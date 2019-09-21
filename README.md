@@ -10,15 +10,15 @@ Chatterbox is a personal project I created to explore technologies like React an
 
 ### Login Page
 
-![Login Page](readme-images/login.png)
+<img src="readme-images/login.png" width="400">
 
 ### Main Screen
 
-![Main Screen](readme-images/main-screen.png)
+<img src="readme-images/main-screen.png" width="400">
 
 ### Editing Profile
 
-![Editing Profile](readme-images/profile.png)
+<img src="readme-images/profile.png" width="400">
 
 ## Built With
 
