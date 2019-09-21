@@ -10,7 +10,7 @@ const MessageItem = props => {
   }
 
   return (
-    <div key={message} className={`message-container message-container-${type}`}>
+    <div key={message} className={`message-container message-container-${type} mb-1`}>
       <div className="valign-wrapper" style={{ display: 'flex' }}>
         <div className={`circle circle-small valign-wrapper blue ${calcStyle()}`}>
           <p>{ user[0] }</p>
