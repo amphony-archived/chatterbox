@@ -5,12 +5,28 @@ import './Messages.scss';
 
 const Messages = ({ conversation }) => {
   // TODO: add type of message: ongoing, outgoing
-  let messages = [];
+  let messages = [
+    {
+      type: 'incoming',
+      message: 'Hey, what\'s up man?',
+      user: 'dTosh'
+    },
+    {
+      type: 'outgoing',
+      message: 'Eh, just homework..lot\'s of it.',
+      user: 'aamphony'
+    },
+    {
+      type: 'incoming',
+      message: 'Welp, just let me know when you want to hunt some monsters!',
+      user: 'dTosh'
+    }
+  ];
   let participants = null;
   let username = null;
 
   if (conversation) {
-    messages = conversation.messages;
+    // messages = conversation.messages;
     participants = conversation.participants;
     username = participants[0].username;
   }
